@@ -72,12 +72,12 @@ npm start
 
 ---
 
-###▶️ Usage
-##🔑 Authentication
+### ▶️ Usage
+## 🔑 Authentication
 Register
 
 POST /auth/register
-##Body: 
+## Body: 
 ```json
 
 {
@@ -87,7 +87,7 @@ POST /auth/register
 }
 ```
 
-##Login
+## Login
 
 POST /auth/login
 Body:
@@ -122,7 +122,7 @@ DELETE /notes/:id → Delete a note
 
 ---
 
-##🎯 Key Takeaways
+## 🎯 Key Takeaways
 
 This project solidified my understanding of authentication in backend APIs. It also improved my confidence in:
 
