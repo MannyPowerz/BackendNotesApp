@@ -2,12 +2,15 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-    // import dotenvfile
+require('dotenv').config();
     // import JWT routes
     // import resource API routes
     // import config
     // import middleware files
 
+// config for envPath later
+// config port later 
+const PORT = process.env.PORT
 const app = express();
 
 // Configuartion 
