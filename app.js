@@ -2,11 +2,13 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const authRouter = require('./routes/auth')
 require('dotenv').config();
     // import JWT routes
     // import resource API routes
     // import config
     // import middleware files
+    // import auth file from routes
 
 // config for envPath later
 // config port later 
@@ -21,6 +23,7 @@ app.use(express.json());
     // Pre-processing middleware
     // Security middleware
         // JWT middleware
+app.use('/auth', authRouter);
 
 // Routes
 // AUTH JWT routes & Notes JWT
