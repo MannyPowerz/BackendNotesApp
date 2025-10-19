@@ -55,7 +55,6 @@ router.post('/register', async (req, res) => {
                 id: newUser.id,
                 name: newUser.name,
                 email: newUser.email,
-                password: newUser.password
             }
         })
         
@@ -66,7 +65,7 @@ router.post('/register', async (req, res) => {
     }
 })
 
-route.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     
     // VALIDATION
     
@@ -77,30 +76,29 @@ route.post('/login', async (req, res) => {
     }
 
     try {
-        // Find User's identification through EMAIL Credential
-        const user = await users.findOne({email});
+    // Find User's identification through EMAIL Credential
+        const user = users.find(user => user.email === email);
 
         if (!user) {
             return res.status(401).json({ error: 'Credential are Invalid'})
         }
 
-        // Compare the incoming password with the stored hashed password
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+    // Compare the incoming password with the stored hashed password
 
-        const isMatch = await bcrypt.compare(password, user.hashedPassword)
+        const isMatch = await bcrypt.compare(password, user.password)
         
         if (!isMatch) {
             return res.status(401).json({ error: 'Credential are Invalid'})
         }
 
-        // When succesfull login ococurs make token
+    // When succesfull login ococurs make token
         const token = jwt.sign(
-            {user: userId}, 
+            {user: user.id}, 
             process.env.JWT_SECRET,
             {expiresIn: '1h'},
         )
 
-        // Response sent to client
+    // Response sent to client
         res.status(200).json({
             success: true,
             message: 'Login is a success',
