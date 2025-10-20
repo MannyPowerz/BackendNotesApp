@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+
 // REPLACE WITH DATABASE LATER for storage
 const users = [];
 
@@ -11,7 +12,7 @@ const saltRounds = 10;
 
 // Routes
     // store user info regsitration
-    // POSt user datat 
+    // POST user data
     // password encyption 
     // idenitfy getting user info to open notes
 
@@ -93,7 +94,7 @@ router.post('/login', async (req, res) => {
 
     // When succesfull login ococurs make token
         const token = jwt.sign(
-            {user: user.id}, 
+            {userId: user.id}, 
             process.env.JWT_SECRET,
             {expiresIn: '1h'},
         )
