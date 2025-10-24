@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
 
 
 // Update a specifc note whihc could be edited (reaosn why ia m using pathc instead of put)
-router.patch('/notes/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
     const noteId = req.params.id;
     const userId = req.user.userId;
     const { title, content } = req.body;
@@ -57,7 +57,9 @@ router.patch('/notes/:id', async (req, res) => {
         const note = notes[noteIndex];
 
         // Security checking Note belongs to User
-        if (note.userId !== userId)
+        if (note.userId !== userId) {
+            return res.status(403).json({ error: 'Not authorized' })
+        }
 
 
         // Check if 'title' was provided and update the note object
@@ -71,12 +73,12 @@ router.patch('/notes/:id', async (req, res) => {
         }
 
         //Update specifc note through assinging it to updated content and title for note of specific user
-        user.notes[noteIdVerifcationIndex] = noteToUpdate
+
 
         res.status(200).json({
             success: true,
             message: 'Note updated',
-            data: noteToUpdate
+            data: note
         })
     }
 
@@ -88,8 +90,37 @@ router.patch('/notes/:id', async (req, res) => {
 })
 
 // Delete a specific note
-router.delete('/notes/:id', async (req, res) => {
-    
+router.delete('/:id', async (req, res) => {
+    const noteId = req.params.id;
+    const userId = req.user.userId;
+
+    try {
+        // Find the note
+        const noteIndex = notes.findIndex(note => note.id === noteId);
+        // Check if exists
+        if (noteIndex === -1) {
+            return res.status(404).json({ message: 'Note not found' });
+        }
+
+        // Get the note
+        const note = notes[noteIndex];
+
+        // Check if belongs to user
+        if (note.userId !== userId) {
+            return res.status(403).json({ error: 'Not authorized' })
+        }
+        // Remove from array
+        notes.splice(noteIndex, 1 );
+        // Send success response
+        res.status(200).json({
+            success: true,
+            message: 'Note deleted',
+        })
+    }
+    catch (error){
+        console.error({error: 'Error deleting the note: ', error});
+        res.status(500).json({error: 'Error deleting the note.'})
+    }
 })
 
 module.exports = router;
